@@ -10,14 +10,13 @@
 
 
 #include <stdio.h>
-#include<string.h>
+#include <string.h>
 
 
 /*
  * generic stalin sort implementation, *should* work with any generic types or structs.
  * returns the number of array elements removed
  */
-
 int stalinSort(void *arrAddress, int size, int elemSize){
     if(size < 2) return 0;
     int removed = 0;
@@ -36,6 +35,9 @@ int stalinSort(void *arrAddress, int size, int elemSize){
     return removed;
 }
 
+/*
+ * Main function for testing purposes.
+ */
 int main(int argc, char *argv[]){
     int arr[] = {1 ,2,3,2,5};
     int removed =  stalinSort(&arr,5,sizeof(int));
