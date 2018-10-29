@@ -28,7 +28,6 @@ int stalinSort(void *arrAddress, int size, int elemSize){
             memmove(currElemAddress, nextElemAddress,(size - i)* elemSize);
             void *lastAddr = (char*)arrAddress + (size * elemSize) - i;
             lastAddr = (int *) -21;
-            size--;
             removed++;
         }
     }
