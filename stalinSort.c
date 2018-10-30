@@ -7,42 +7,45 @@
  * Tommy Bojanin - Generic Implementation
  */
 
-
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
+int intcmp(void *elem1, void *elem2){
+    int *int1 = elem1;
+    int *int2 = elem2;
+    return *int1 - *int2;
+}
 
 /*
  * generic stalin sort implementation, *should* work with any generic types or structs.
  * returns the number of array elements removed
  */
 
-void *stalinSort(void *arrAddress, int size, int elemSize){
+void *stalinSort(void *arrAddress, int size, int elemSize, int (*cmpfn)(void*,void*)){
     if(size < 2) return 0;
     int removed = 0;
-
-    for(int i = 0; i < size - 1; i++){
+    int removedSize = size;
+    for(int i = 0; i < removedSize - 1; i++){
         void *currElemAddress = (char*)arrAddress + i*elemSize;
         void *nextElemAddress = (char*)arrAddress + (i + 1) * elemSize;
-        if(memcmp(currElemAddress,nextElemAddress,elemSize) > 0){
+        if(cmpfn(currElemAddress,nextElemAddress) > 0){
             memmove(currElemAddress, nextElemAddress,(size - i)* elemSize);
-            void *lastAddr = (char*)arrAddress + (size * elemSize) - i;
-            lastAddr = (int *) -21;
             removed++;
+            removedSize--;
         }
     }
     if(removed != 0){
-    void *newAddr = malloc((size - removed) * elemSize);
-    void *retAddr = memcpy(newAddr,arrAddress,(size - removed) * elemSize);
-    return retAddr;
+    void *newAddr = malloc(removedSize * elemSize);
+    memcpy(newAddr,arrAddress,removedSize * elemSize);
+    arrAddress = newAddr;
     }
     return arrAddress;
 }
 
 int main(int argc, char *argv[]){
     int arr[] = {1 ,2,3,2,6 ,5,7,8,9};
-    stalinSort(&arr,5,sizeof(int));
+    stalinSort(&arr,9,sizeof(int), intcmp);
     for(int i = 0; i < sizeof(arr) / sizeof(arr[0]); i ++){
         printf("num[%i]: %i\n",i, arr[i]);
     }
