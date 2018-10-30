@@ -11,13 +11,14 @@
 
 #include <stdio.h>
 #include <string.h>
-
+#include <stdlib.h>
 
 /*
  * generic stalin sort implementation, *should* work with any generic types or structs.
  * returns the number of array elements removed
  */
-int stalinSort(void *arrAddress, int size, int elemSize){
+
+void *stalinSort(void *arrAddress, int size, int elemSize){
     if(size < 2) return 0;
     int removed = 0;
 
@@ -31,16 +32,18 @@ int stalinSort(void *arrAddress, int size, int elemSize){
             removed++;
         }
     }
-    return removed;
+    if(removed != 0){
+    void *newAddr = malloc((size - removed) * elemSize);
+    void *retAddr = memcpy(newAddr,arrAddress,(size - removed) * elemSize);
+    return retAddr;
+    }
+    return arrAddress;
 }
 
-/*
- * Main function for testing purposes.
- */
 int main(int argc, char *argv[]){
-    int arr[] = {1 ,2,3,2,5};
-    int removed =  stalinSort(&arr,5,sizeof(int));
-    for(int i = 0; i < sizeof(arr) / sizeof(arr[0]) - removed; i ++){
+    int arr[] = {1 ,2,3,2,6 ,5,7,8,9};
+    stalinSort(&arr,5,sizeof(int));
+    for(int i = 0; i < sizeof(arr) / sizeof(arr[0]); i ++){
         printf("num[%i]: %i\n",i, arr[i]);
     }
     return 0;
