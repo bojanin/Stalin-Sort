@@ -12,4 +12,4 @@ Implementation of a generic stalin sort, an O(n) sorting method. This is usable 
   4)Bask in your O(N) sort time.
 ```
   
-____ Disclaimer: This is done as a joke and isn't serious.___ 
+__Disclaimer: This is done as a joke and isn't serious. __
